@@ -2,6 +2,7 @@ package fireworks
 
 import doodle.core.{Angle, Color, Point}
 import scala.util.Random
+import doodle.image.examples.CreativeScala.point
 
 /**
  * A firework can be in the following states:
@@ -26,12 +27,15 @@ object Firework:
    * same [[Done]] state. Otherwise, the next state is computed
    * by calling the operation `next` on the underlying state type
    * (see e.g., [[Waiting.next]]).
-   *
-   * Hint: choose what to do by pattern matching on the given `firework`.
+   *   * Hint: choose what to do by pattern matching on the given `firework`.
    * You will have to use “typed patterns” to match on case classes and
    * “literal patterns” to match on case objects.
    */
-   def next(firework: Firework): Firework = ??? 
+   def next(firework: Firework): Firework = firework match
+     case state: Waiting => state.next 
+     case state: Launched => state.next 
+     case state: Exploding => state.next
+     case Done => firework
 end Firework
 
 /**
@@ -57,8 +61,8 @@ case class Waiting(countDown: Int, startPosition: Point, numberOfParticles: Int,
   def next: Firework =
     if countDown > 0 then
       copy(countDown = countDown - 1)
-    else ???
-
+    else
+      Launched.init(startPosition, numberOfParticles, particlesColor)
 end Waiting
 
 object Waiting:
@@ -105,7 +109,10 @@ case class Launched(countDown: Int, position: Point, direction: Angle, numberOfP
    *         and use the constant [[Settings.propulsionSpeed]] for the speed of the firework.
    */
   def next: Firework =
-    ???
+    if countDown > 0 then
+      copy(position = Motion.movePoint(position, direction, Settings.propulsionSpeed), countDown = countDown - 1)
+    else
+      Exploding.init(numberOfParticles, direction, position, particlesColor) 
 
 end Launched
 
@@ -143,7 +150,10 @@ case class Exploding(countDown: Int, particles: Particles) extends Firework:
    *       of this firework.
    */
   def next: Firework =
-    ???
+    if countDown > 0 then
+      copy(particles = particles.next, countDown = countDown - 1)
+    else
+      Done
 
 end Exploding
 
@@ -189,17 +199,15 @@ case class Particle(horizontalSpeed: Double, verticalSpeed: Double, position: Po
     // Horizontal speed is only subject to air friction, its next value
     // should be the current value reduced by air friction
     // Hint: use the operation `Motion.drag`
-    val updatedHorizontalSpeed =
-      ???
+    val updatedHorizontalSpeed = Motion.drag(horizontalSpeed)
     // Vertical speed is subject to both air friction and gravity, its next
     // value should be the current value minus the gravity, then reduced by
     // air friction
-    val updatedVerticalSpeed =
-      ???
+    val updatedVerticalSpeed = Motion.drag(verticalSpeed - Settings.gravity)
     // Particle position is updated according to its new speed
     val updatedPosition = Point(position.x + horizontalSpeed, position.y + verticalSpeed)
     // Construct a new particle with the updated position and speed
-    ???
+    Particle(updatedHorizontalSpeed, updatedVerticalSpeed, updatedPosition, color)
 
 end Particle
 
