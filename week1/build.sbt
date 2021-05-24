@@ -1,12 +1,15 @@
-val scala3Version = "3.0.0"
+lazy val commonSettings = Seq(
+    name := "scala3-week1",
+    version := "0.1.0",
+    scalaVersion := "3.0.0"
+)
+
+lazy val libsTesting = Seq(
+  libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.9",
+  libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % "test"
+)
 
 lazy val root = project
   .in(file("."))
-  .settings(
-    name := "scala3-week1",
-    version := "0.1.0",
-
-    scalaVersion := scala3Version,
-
-    libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
-  )
+  .settings(commonSettings)
+  .settings(libsTesting)
