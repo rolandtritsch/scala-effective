@@ -9,6 +9,18 @@ lazy val commonSettings = Seq(
   )
 )
 
+lazy val courseraSettings = Seq(
+  course := "effective-scala",
+  assignmentVersion := "076cc74a",
+  courseraId := ch.epfl.lamp.CourseraId(
+    courseId = "nreZLpQjEeqcUw5ApMKwQQ",
+    key = "G72Sx90ZRKer8YEN4UB0YQ",
+    itemId = "jiQL9",
+    premiumItemId = Some("MT64m"),
+    partId = "KnKg4"
+  )
+)
+
 lazy val week0 = (project in file("week0"))
   .settings(commonSettings)
 
@@ -17,8 +29,8 @@ lazy val week1 = (project in file("week1"))
 
 lazy val week1Fireworks = (project in file("week1-fireworks"))
   .settings(commonSettings)
+  .settings(courseraSettings)
   .settings(
-    course := "effective-scala",
     assignment := "fireworks"
   )
   .enablePlugins(StudentTasks)
