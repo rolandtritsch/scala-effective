@@ -35,9 +35,13 @@ lazy val week1Fireworks = (project in file("week1-fireworks"))
   )
   .enablePlugins(StudentTasks)
 
+lazy val week2 = (project in file("week2"))
+  .settings(commonSettings)
+
 lazy val root = (project in file("."))
   .aggregate(
     week0,
     week1,
-    week1Fireworks
+    week1Fireworks,
+    week2
   )
