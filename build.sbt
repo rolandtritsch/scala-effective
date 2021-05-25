@@ -11,14 +11,7 @@ lazy val commonSettings = Seq(
 
 lazy val courseraSettings = Seq(
   course := "effective-scala",
-  assignmentVersion := "076cc74a",
-  courseraId := ch.epfl.lamp.CourseraId(
-    courseId = "nreZLpQjEeqcUw5ApMKwQQ",
-    key = "G72Sx90ZRKer8YEN4UB0YQ",
-    itemId = "jiQL9",
-    premiumItemId = Some("MT64m"),
-    partId = "KnKg4"
-  )
+  assignmentVersion := "076cc74a"
 )
 
 lazy val week0 = (project in file("week0"))
@@ -31,7 +24,14 @@ lazy val week1Fireworks = (project in file("week1-fireworks"))
   .settings(commonSettings)
   .settings(courseraSettings)
   .settings(
-    assignment := "fireworks"
+    assignment := "fireworks",
+    courseraId := ch.epfl.lamp.CourseraId(
+      courseId = "nreZLpQjEeqcUw5ApMKwQQ",
+      key = "G72Sx90ZRKer8YEN4UB0YQ",
+      itemId = "jiQL9",
+      premiumItemId = Some("MT64m"),
+      partId = "KnKg4"
+    )
   )
   .enablePlugins(StudentTasks)
 
@@ -42,7 +42,14 @@ lazy val week2Democracy = (project in file("week2-democracy"))
   .settings(commonSettings)
   .settings(courseraSettings)
   .settings(
-    assignment := "democracy"
+    assignment := "democracy",
+    courseraId := ch.epfl.lamp.CourseraId(
+      courseId = "nreZLpQjEeqcUw5ApMKwQQ",
+      key = "-6HatvbuQ6eEaWZIZkGxMQ",
+      itemId = "vujw6",
+      premiumItemId = Some("Y3zSS"),
+      partId = "1Aqma"
+    )
   )
   .enablePlugins(StudentTasks)
 
