@@ -96,28 +96,50 @@ object PersistentModel extends Model:
    */
 
   def create(task: Task): Id =
-    ???
+    val currentId = loadId()
+    val currentTasks = loadTasks().toList
+    val nextId = currentId.next
+    saveTasks(Tasks(currentTasks.appended(nextId, task)))
+    saveId(nextId)
+    nextId
 
   def read(id: Id): Option[Task] =
-    ???
+    loadTasks().toMap.get(id)
 
   def update(id: Id)(f: Task => Task): Option[Task] =
-    ???
+    val currentTasks = loadTasks().toMap
+    val updatedTasks = currentTasks.updatedWith(id)(opt => opt.map(f))
+    val updatedTask = updatedTasks.get(id)
+    saveTasks(Tasks(updatedTasks.toList))
+    updatedTask
 
   def delete(id: Id): Boolean =
-    ???
+    val currentTasks = loadTasks().toMap
+    val updatedTasks = currentTasks.removed(id)
+    saveTasks(Tasks(updatedTasks.toList))
+    currentTasks.get(id).isDefined
 
-  def tasks: Tasks =
-    ???
+  def tasks: Tasks = loadTasks()
 
   def tasks(tag: Tag): Tasks =
-    ???
+    def hasTag(task: Task, tag: Tag): Boolean =
+      task.tags.contains(tag)
+
+    val currentTasks = loadTasks().toList
+    val tasksWithThisTag = currentTasks.filter((_, task) => hasTag(task, tag)) 
+    Tasks(tasksWithThisTag)
 
   def complete(id: Id): Option[Task] =
-    ???
+    val currentTasks = loadTasks().toMap
+    val updatedTasks = currentTasks.updatedWith(id)(
+      maybeTask => maybeTask.flatMap(t => Option(t.copy(state = State.completedNow)))
+    )
+    updatedTasks.get(id)
 
   def tags: Tags =
-    ???
+    val currentTasks = loadTasks().toMap
+    val allTags = currentTasks.values.flatMap(_.tags).toList.distinct
+    Tags(allTags)
 
   def clear(): Unit =
-    ???
+    saveTasks(Tasks(List.empty))
