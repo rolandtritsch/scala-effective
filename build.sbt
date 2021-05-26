@@ -76,7 +76,7 @@ lazy val week3Todo = (project in file("week3-todo"))
       partId = "uZst0"
     ),
     libraryDependencies ++= Seq(
-      ("io.circe" %% "circe-parser" % "0.14.0")
+      ("io.circe" %% "circe-parser" % "0.13.0")
         .cross(CrossVersion.for3Use2_13),
       ("org.http4s" %% "http4s-ember-server" % "1.0.0-M4")
         .cross(CrossVersion.for3Use2_13),
