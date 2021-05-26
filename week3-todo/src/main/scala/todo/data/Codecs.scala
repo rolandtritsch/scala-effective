@@ -1,5 +1,4 @@
-package todo
-package data
+package todo.data
 
 import io.circe.*
 import io.circe.syntax.*

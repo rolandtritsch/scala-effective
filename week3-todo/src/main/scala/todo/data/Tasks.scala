@@ -1,6 +1,4 @@
-package todo
-package data
-
+package todo.data
 
 /*
  * Tasks represents a collection of Task items. We assume order is important.

@@ -1,6 +1,4 @@
-package todo
-package data
-
+package todo.data
 
 /*
  * Tags represents a collection of Tag items. The Tag items should be distinct

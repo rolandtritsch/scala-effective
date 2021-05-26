@@ -1,6 +1,4 @@
-package todo
-package data
-
+package todo.data
 
 /*
  * The Tag class encapsulates an string that represents a Tag. This

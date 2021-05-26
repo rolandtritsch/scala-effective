@@ -1,6 +1,4 @@
-package todo
-package data
-
+package todo.data
 
 /*
  * A Task represents a job to be done.

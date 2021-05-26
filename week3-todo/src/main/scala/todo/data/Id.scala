@@ -1,6 +1,4 @@
-package todo
-package data
-
+package todo.data
 
 /*
  * The Id class encapsulates an integer that represents an Id. This
