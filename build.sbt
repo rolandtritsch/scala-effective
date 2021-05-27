@@ -9,10 +9,10 @@ lazy val commonSettings = Seq(
   testFrameworks += new TestFramework("munit.Framework"),
   libraryDependencies ++= Seq(
     "ch.qos.logback" % "logback-classic" % "1.2.3",
-    "com.novocode" % "junit-interface" % "0.11" % Test,
-    "org.scalacheck" %% "scalacheck" % "1.15.4" % Test,
-    "org.scalameta" %% "munit" % "0.7.26" % Test,
-    "org.scalameta" %% "munit-scalacheck" % "0.7.26" % Test
+    "com.novocode" % "junit-interface" % "0.11",
+    "org.scalacheck" %% "scalacheck" % "1.15.4",
+    "org.scalameta" %% "munit" % "0.7.26",
+    "org.scalameta" %% "munit-scalacheck" % "0.7.26"
   )
 )
 
@@ -91,6 +91,22 @@ lazy val week3Todo = (project in file("week3-todo"))
 lazy val week4 = (project in file("week4"))
   .settings(commonSettings)
 
+lazy val week4Quickcheck = (project in file("week4-quickcheck"))
+  .enablePlugins(StudentTasks)
+  .settings(commonSettings)
+  .settings(courseraSettings)
+  .settings(
+    assignment := "quickcheck",
+    assignmentVersion := "076cc74a",
+    courseraId := ch.epfl.lamp.CourseraId(
+      courseId = "nreZLpQjEeqcUw5ApMKwQQ",
+      key = "priXZpR9R-CXRMy6MAjxxg",
+      itemId = "pGKSR",
+      premiumItemId = Some("FBNDT"),
+      partId = "YJ8X7"
+    )
+  )
+
 lazy val root = (project in file("."))
   .aggregate(
     week0,
@@ -99,5 +115,6 @@ lazy val root = (project in file("."))
     week2,
     week2Democracy,
     week3Todo,
-    week4
+    week4,
+    week4Quickcheck
   )
