@@ -34,3 +34,12 @@ def fibonacci3(n: Int): Int =
 fibonacci3(0)
 fibonacci3(1)
 fibonacci3(5)
+
+import scala.collection.immutable
+val fibonacci4: immutable.LazyList[Int] = 
+  0 #:: 1 #:: fibonacci4.zip(fibonacci4.tail).map{ n => n(0) + n(1) }
+
+fibonacci4(0)
+fibonacci4(1)
+fibonacci4(5)
+

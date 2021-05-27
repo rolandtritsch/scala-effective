@@ -23,7 +23,12 @@ def fibonacci3(n: Int): Int =
     case _ => fib((f(1), f(1) + f(0)), n - 1)
   fib((0,1), n)
 
+import scala.collection.immutable
+val fibonacci4: immutable.LazyList[Int] = 
+  0 #:: 1 #:: fibonacci4.zip(fibonacci4.tail).map{ n => n(0) + n(1) }
+
 @main def main(n: Int): Unit =
   println(s"fibonacci(${n}): ${fibonacci(n)}")
   println(s"fibonacci2(${n}): ${fibonacci2(n)}")
   println(s"fibonacci3(${n}): ${fibonacci3(n)}")
+  println(s"fibonacci4(${n}): ${fibonacci4(n)}")
