@@ -8,12 +8,11 @@ lazy val commonSettings = Seq(
   onChangedBuildSource := ReloadOnSourceChanges,
   testFrameworks += new TestFramework("munit.Framework"),
   libraryDependencies ++= Seq(
-    ("org.creativescala" %% "doodle" % "0.9.21")
-      .cross(CrossVersion.for3Use2_13),
     "ch.qos.logback" % "logback-classic" % "1.2.3",
     "com.novocode" % "junit-interface" % "0.11" % Test,
     "org.scalacheck" %% "scalacheck" % "1.15.4" % Test,
-    "org.scalameta" %% "munit" % "0.7.26" % Test
+    "org.scalameta" %% "munit" % "0.7.26" % Test,
+    "org.scalameta" %% "munit-scalacheck" % "0.7.26" % Test
   )
 )
 
@@ -40,7 +39,9 @@ lazy val week1Fireworks = (project in file("week1-fireworks"))
       itemId = "jiQL9",
       premiumItemId = Some("MT64m"),
       partId = "KnKg4"
-    )
+    ),
+    libraryDependencies += ("org.creativescala" %% "doodle" % "0.9.21")
+      .cross(CrossVersion.for3Use2_13),
   )
 
 lazy val week2 = (project in file("week2"))
@@ -87,6 +88,9 @@ lazy val week3Todo = (project in file("week3-todo"))
     )
   )
 
+lazy val week4 = (project in file("week4"))
+  .settings(commonSettings)
+
 lazy val root = (project in file("."))
   .aggregate(
     week0,
@@ -94,5 +98,6 @@ lazy val root = (project in file("."))
     week1Fireworks,
     week2,
     week2Democracy,
-    week3Todo
+    week3Todo,
+    week4
   )
