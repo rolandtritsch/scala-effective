@@ -6,7 +6,7 @@ import org.scalacheck.Properties
 import org.scalacheck.Arbitrary.*
 import org.scalacheck.Prop
 import org.scalacheck.Prop.*
-import org.scalacheck.Test.{check, Result, Failed, PropException}
+import org.scalacheck.Test.{ check, Result, Failed, PropException }
 
 class QuickCheckSuite extends munit.FunSuite:
   def checkBogus(heapInterface: HeapInterface): Unit =

@@ -78,7 +78,8 @@ class BinomialHeap extends HeapInterface:
 
   protected def ins(node: Node, heap: List[Node]): List[Node] = heap match
     case Nil => List(node)
-    case node2 :: heap2 => // node.rank <= node2.rank
+    case node2 :: heap2 =>
+      assert(node.rank <= node2.rank, "node.rank <= node2.rank")
       if node.rank < node2.rank then
         node :: node2 :: heap2
       else
