@@ -5,12 +5,8 @@ lazy val commonSettings = Seq(
     "-language:implicitConversions",
     "-Xfatal-warnings"
   ),
-  onChangedBuildSource := ReloadOnSourceChanges,
   testFrameworks += new TestFramework("munit.Framework"),
   libraryDependencies ++= Seq(
-    "ch.qos.logback" % "logback-classic" % "1.2.3",
-    "com.novocode" % "junit-interface" % "0.11",
-    "org.scalacheck" %% "scalacheck" % "1.15.4",
     "org.scalameta" %% "munit" % "0.7.26",
     "org.scalameta" %% "munit-scalacheck" % "0.7.26"
   )
@@ -18,7 +14,7 @@ lazy val commonSettings = Seq(
 
 lazy val courseraSettings = Seq(
   course := "effective-scala",
-  assignmentVersion := "076cc74a"
+  assignmentVersion.withRank(KeyRanks.Invisible) := "076cc74a"
 )
 
 lazy val week0 = (project in file("week0"))
@@ -97,13 +93,31 @@ lazy val week4Quickcheck = (project in file("week4-quickcheck"))
   .settings(courseraSettings)
   .settings(
     assignment := "quickcheck",
-    assignmentVersion := "076cc74a",
     courseraId := ch.epfl.lamp.CourseraId(
       courseId = "nreZLpQjEeqcUw5ApMKwQQ",
       key = "priXZpR9R-CXRMy6MAjxxg",
       itemId = "pGKSR",
       premiumItemId = Some("FBNDT"),
       partId = "YJ8X7"
+    )
+  )
+
+lazy val week5Codecs = (project in file("week5-codecs"))
+  .enablePlugins(StudentTasks)
+  .settings(commonSettings)
+  .settings(courseraSettings)
+  .settings(
+    assignment := "codecs",
+    assignmentVersion := "076cc74a",
+    courseraId := ch.epfl.lamp.CourseraId(
+      courseId = "nreZLpQjEeqcUw5ApMKwQQ",
+      key = "qY-9IQvQQF2_rLrBUPylrg",
+      itemId = "Y1NKF",
+      premiumItemId = Some("goQXj"),
+      partId = "Gvl0W"
+    ),
+    libraryDependencies ++= Seq(
+      "org.typelevel" %% "jawn-parser" % "1.1.2"
     )
   )
 
@@ -116,5 +130,6 @@ lazy val root = (project in file("."))
     week2Democracy,
     week3Todo,
     week4,
-    week4Quickcheck
+    week4Quickcheck,
+    week5Codecs
   )
