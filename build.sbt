@@ -108,7 +108,6 @@ lazy val week5Codecs = (project in file("week5-codecs"))
   .settings(courseraSettings)
   .settings(
     assignment := "codecs",
-    assignmentVersion := "076cc74a",
     courseraId := ch.epfl.lamp.CourseraId(
       courseId = "nreZLpQjEeqcUw5ApMKwQQ",
       key = "qY-9IQvQQF2_rLrBUPylrg",
@@ -121,6 +120,28 @@ lazy val week5Codecs = (project in file("week5-codecs"))
     )
   )
 
+lazy val week6Wikigraph = (project in file("week6-wikigraph"))
+  .enablePlugins(StudentTasks)
+  .settings(commonSettings)
+  .settings(courseraSettings)
+  .settings(
+    assignment := "wikigraph",
+    assignmentVersion.withRank(KeyRanks.Invisible) := "5d55575c",
+    courseraId := ch.epfl.lamp.CourseraId(
+      courseId = "nreZLpQjEeqcUw5ApMKwQQ",
+      key = "a_Lc_9bLSgew_bCu7oy6hA",
+      itemId = "GoEVe",
+      premiumItemId = Some("FhBzJ"),
+      partId = "HPoI3"
+    ),
+    libraryDependencies ++= Seq(
+      ("com.typesafe.slick" %% "slick" % "3.3.3")
+        .cross(CrossVersion.for3Use2_13),
+      "org.xerial"%"sqlite-jdbc" % "3.7.2"
+    ),
+    parallelExecution.withRank(KeyRanks.Invisible) := false
+  )
+
 lazy val root = (project in file("."))
   .aggregate(
     week0,
@@ -131,5 +152,6 @@ lazy val root = (project in file("."))
     week3Todo,
     week4,
     week4Quickcheck,
-    week5Codecs
+    week5Codecs,
+    week6Wikigraph
   )
