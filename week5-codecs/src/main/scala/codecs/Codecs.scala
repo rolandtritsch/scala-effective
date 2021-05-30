@@ -287,12 +287,14 @@ import Util.*
   println(renderJson(42))
   println(renderJson("foo"))
 
-  val maybeJsonString = parseJson(""" "foo" """)
-  val maybeJsonObj = parseJson(""" { "name": "Alice", "age": 42 } """)
-  val maybeJsonObj2 = parseJson(""" { "name": "Alice", "age": "42" } """)
-  // Uncomment the following lines as you progress in the assignment
-  println(maybeJsonString.flatMap(_.decodeAs[Int]))
-  println(maybeJsonString.flatMap(_.decodeAs[String]))
-  println(maybeJsonObj.flatMap(_.decodeAs[Person]))
-  println(maybeJsonObj2.flatMap(_.decodeAs[Person]))
+  val maybeFoo = parseJson(""" "foo" """)
+  val maybeAlice = parseJson(""" { "name": "Alice", "age": 42 } """)
+  val maybeAliceBad = parseJson(""" { "name": "Alice", "age": "42" } """)
+
+  println(maybeFoo.flatMap(_.decodeAs[Int]))
+  println(maybeFoo.flatMap(_.decodeAs[String]))
+  println(maybeAlice.flatMap(_.decodeAs[Person]))
+  println(maybeAliceBad.flatMap(_.decodeAs[Person]))
+
   println(renderJson(Person("Bob", 66)))
+  println(renderJson(Contacts(List(Person("Bob", 66), Person("Roland", 55)))))
