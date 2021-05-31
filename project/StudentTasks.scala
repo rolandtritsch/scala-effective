@@ -42,7 +42,7 @@ object StudentTasks extends AutoPlugin {
   override lazy val projectSettings = Seq(
     // Run scalafix linting in parallel with the tests
     (Test / test) := {
-      scalafixLinting.value
+      val _ = scalafixLinting.value
       (Test / test).value
     },
 
@@ -126,7 +126,7 @@ object StudentTasks extends AutoPlugin {
   /** Task to package solution to a given file path */
   lazy val packageSubmissionSetting = packageSubmission := {
     // Fail if scalafix linting does not pass.
-    scalafixLinting.value
+    val _ = scalafixLinting.value
 
     val args: Seq[String] = Def.spaceDelimited("[path]").parsed
     val s: TaskStreams = streams.value // for logging
@@ -142,7 +142,7 @@ object StudentTasks extends AutoPlugin {
   val submit = inputKey[Unit]("submit solution to Coursera")
   lazy val submitSetting = submit := {
     // Fail if scalafix linting does not pass.
-    scalafixLinting.value
+    val _ = scalafixLinting.value
 
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
     val s: TaskStreams = streams.value // for logging
