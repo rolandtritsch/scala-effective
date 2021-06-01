@@ -214,7 +214,6 @@ class WikigraphSuite extends munit.FunSuite:
       ArticleId(5) -> Set(6).map(ArticleId(_))
     )
     val res = Await.result(Wikigraph(InMemory(g)).breadthFirstSearch(ArticleId(1), ArticleId(6), 10).value, timeout)
-
     assertEquals(res, Right(Some(3)), "correct distance")
   }
 

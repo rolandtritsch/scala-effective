@@ -52,7 +52,11 @@ case class WikiResult[A](val value: Future[Either[Seq[WikiError], A]]):
     * Hint: Both Either and Future have a similar method
     */
   def map[B](f: A => B)(using ExecutionContext): WikiResult[B] =
-    ???
+    val b = value.map { 
+      case Right(v) => Right(f(v))
+      case Left(e) => Left(e)
+    }
+    WikiResult(b)
 
   /**
     * Use the result of this computation as an input for another asynchronous
@@ -64,10 +68,11 @@ case class WikiResult[A](val value: Future[Either[Seq[WikiError], A]]):
     *       error should be propagated
     */
   def flatMap[B](f: A => WikiResult[B])(using ExecutionContext): WikiResult[B] = 
-    val futureB: Future[Either[Seq[WikiError], B]] = value.flatMap {
-      ???
+    val b: Future[Either[Seq[WikiError], B]] = value.flatMap {
+      case Right(v) => f(v).value
+      case Left(e) => Future(Left(e))
     }
-    WikiResult(futureB)
+    WikiResult(b)
 
   /**
     * Retrieve the results of two computations and produce a result containing the
@@ -79,8 +84,11 @@ case class WikiResult[A](val value: Future[Either[Seq[WikiError], A]]):
     * Hint: The async part has been handled for you. You need to zip the two Either 
     */
   def zip[B](that: WikiResult[B])(using ExecutionContext): WikiResult[(A, B)] =
-    def zipEithersAcc(a: Either[Seq[WikiError], A], b: Either[Seq[WikiError], B]): Either[Seq[WikiError], (A, B)] =
-      ???
+    def zipEithersAcc(a: Either[Seq[WikiError], A], b: Either[Seq[WikiError], B]): Either[Seq[WikiError], (A, B)] = (a, b) match
+      case (Right(ra), Right(rb)) => Right(ra, rb)
+      case (Left(la), Left(lb)) => Left(la ++ lb)     
+      case (Left(la), Right(_)) => Left(la)     
+      case (Right(_), Left(lb)) => Left(lb)     
     WikiResult(this.value.flatMap { thisEither =>
       that.value.map { thatEither =>
         zipEithersAcc(thisEither, thatEither)
@@ -127,7 +135,11 @@ object WikiResult:
     * 
     * Hint: Use WikiResult.zip
     */
-  def traverse[A, B](ls: Seq[A])(f: A => WikiResult[B])(using ExecutionContext): WikiResult[Seq[B]] =
-    ???
+  def traverse[A, B](as: Seq[A])(f: A => WikiResult[B])(using ExecutionContext): WikiResult[Seq[B]] =
+    val initial = WikiResult.successful(Seq.empty[B])
+    val bs = as.map(f)
+    bs.foldLeft(initial) { (bsResultSeq, bResult) =>
+      bsResultSeq.zip(bResult).map((bsSeq, b) => bsSeq :+ b)
+    }
 
 end WikiResult
